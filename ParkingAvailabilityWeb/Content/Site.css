@@ -1,0 +1,103 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+.cover {
+    background-image: url('../Images/Accenture-.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    width:120vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+#Image1 {
+    width: 10vw;
+    height: 7vh;
+    margin-top:-107.5vh;
+    margin-right:110vw;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.elements{
+    position:absolute;
+    top:0;bottom:0;right:0;left:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.intro {
+    width: 40vw;
+    height: 80vh;
+    box-shadow:white 0px 40px 60px;
+
+}
+#Label1{
+    display:block;
+    padding-top:7vh;
+    padding-left:13vw;
+    font-size:6vw;
+    font-size:8vh;
+    color:white;
+    font-family:'Leckerli One','Algerian';
+    text-shadow:white 0px 20px 20px;
+}
+.txt1{
+    margin-top:4vh;
+    margin-left:10vw;
+}
+.txt2 {
+    margin-top: 7.4vh;
+    margin-left: 10vw;
+}
+.txt1[placeholder],.txt2[placeholder]{
+    font-family:'Oleo Script Swash Caps';
+    font-size:2vw;
+    padding-left:6vw;
+}
+.txtstyle{
+    width:20vw;
+    height:6vh;
+    border:0;
+    border-radius:4%;
+    background-color:rgba(252,251,251,0.80);
+    
+}
+.btnstyle {
+    margin-top: 10vh;
+    width: 11vw;
+    height: 7vh;
+    margin-left: 6vw;
+    font-family:'Oleo Script Swash Caps';
+    font-size:2vw;
+    border:0px;
+    color:black;
+}
+.btnstyle:hover{
+    background-color:transparent;
+    box-shadow:white 0px 90px 80px;
+}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.field-validation-error{
+    color: #ff0000;
+    font-weight: bold;
+}
+input.input-validation-error{
+    border: 1px solid #ff0000;
+}

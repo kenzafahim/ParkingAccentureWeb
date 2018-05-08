@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Accueil</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Accenture technology</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="@Url.Action("Accueil","Home")">Accueil</a></li>
+                <li><a href="@Url.Action("Index","Home")">Collaborators</a></li>
+                <li><a href="@Url.Action("Place","Home")">Parking places</a></li>
+                <li><a href="@Url.Action("Reserv","Home")">Reservations</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+    <h1>Hola @Session["username"]</h1>
+</body>
+</html>

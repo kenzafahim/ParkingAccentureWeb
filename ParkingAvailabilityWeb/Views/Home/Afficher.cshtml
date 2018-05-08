@@ -1,0 +1,51 @@
+﻿@model ParkingAvailabilityWeb.Models.Collaborators
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Afficher", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id)
+    <center>
+        <table>
+            <tr>
+                <td>@Html.LabelFor(model => model.Name, new { @class = "control-label" }) : </td>
+                <td></td>
+                <td> @Html.Encode(Model.Name)</td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Gender, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td>@Html.Encode(Model.Gender)</td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Email, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td> @Html.Encode(Model.Email)</td>
+            </tr>
+            <tr>
+                <td> @Html.LabelFor(model => model.Phone, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td> @Html.Encode(Model.Phone)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Rank, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td> @Html.Encode(Model.Rank)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.PlaceHolder, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td> @Html.Encode(Model.PlaceHolder)</td>
+            </tr>
+            <tr>
+                <td> @Html.LabelFor(model => model.PlaceNumber, new { @class = "control-label" }) :</td>
+                <td></td>
+                <td> @Html.Encode(Model.PlaceNumber)</td>
+            </tr>
+
+        </table>
+    </center>
+}

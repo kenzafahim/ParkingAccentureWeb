@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Accenture Technology";
+}
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<h2>Accenture Collaborators</h2>
+<a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddOrEdit","Home")')"><i class="fa fa-plus"></i> Add New Employ</a>
+<table id="collaboTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>PlaceHolder</th>
+            <th>PlaceNumber</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+            dataTable = $("#collaboTable").DataTable(
+                {
+                    "ajax": {
+                        "url": "/Home/GetList",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "Name" },
+                        { "data": "Rank" },
+                        { "data": "PlaceHolder" },
+                        { "data": "PlaceNumber" },
+                        {
+                            "data": "Id", "render": function(data) {
+                                return "<a class='btn btn-default btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Home")/" + data + "')><i class='fa fa-pencil'></i>Edit</a> <a class='btn btn-danger btn-sm' onclick=Delete(" + data + ")><i class='fa fa-trash'></i>Delete</a> <a class='btn btn-info btn-sm' onclick=PopupForm1('@Url.Action("Afficher","Home")/" + data + "')><i class='fa fa-address-book'></i>Details</a>"
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "190px"
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "No data found, Please click on <b>Add New Employ </b> button"
+                    }
+
+                });
+        });
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Employee Details',
+                        height: 600,
+                        width: 600,
+                        close: function(){
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        }
+        function PopupForm1(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Employee Details',
+                        height: 300,
+                        width: 400,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        }
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            if (confirm('Are you sure to delete this Employee record ?'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Home")/' + id,
+                    success: function (data) {
+                        if (data.success) {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+                });
+            }
+
+        }
+        $(function (){
+            if ($('.high').text() == 'true') {
+                $('.high').parent().css('background-color', '#000033');
+            }
+            $("#collaboTable")
+                .hide()
+                .fadeIn(1500)
+                .find('th')
+                .hover(function () {
+                    $(this).css('background-color', '#fff');
+                },
+                function () {
+                    if ($(this).children().hasClass('high') && $(this).children().text() == 'true') {
+                        $(this).css('background-color', '#000033');
+                    }
+                    else {
+                        $(this).css('background-color', '#d4e3e3');
+                    }
+                });
+        });
+        $(document).ready(function () {
+            $('#collaboTable').find('tr').each(function () {
+                var cell = $this.children('th')[6];
+                var val = cell.value;
+                if (val = true) {
+                    $(this).css('background-color', 'green');
+                } else {
+                    $(this).css('background-color', 'red');
+                }
+            });
+        });
+    </script>
+
+}

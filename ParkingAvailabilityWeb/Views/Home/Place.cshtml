@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Parking Place";
+}
+<!DOCTYPE html>
+
+<head>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<h2>Parking Place</h2>
+<a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddPlace","Home")')"><i class="fa fa-plus"></i> Add New Place</a>
+<table id="PlaceTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>PlaceNumber</th>
+            <th>PlaceDescription</th>
+            <th>BadgeID</th>
+            <th>Statut</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+            dataTable = $("#PlaceTable").DataTable(
+                {
+                    "ajax": {
+                        "url": "/Home/GetPlace",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "PlaceNumber" },
+                        { "data": "PlaceDescription" },
+                        { "data": "BadgeID" },
+                        { "data": "Statut" },
+                        {
+                            "data": "Id", "render": function(data) {
+                                return "<a class='btn btn-default btn-sm' onclick=PopupForm('@Url.Action("AddPlace","Home")/"+data+"')><i class='fa fa-pencil'></i>Edit</a> <a class='btn btn-danger btn-sm' onclick=Delete("+data+")><i class='fa fa-trash'></i>Delete</a>"
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "No data found, Please click on <b>Add New Employ </b> button"
+                    }
+
+                });
+        });
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Place Details',
+                        height: 400,
+                        width: 600,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        }
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            if (confirm('Are you sure to delete this Place record ?'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeletePlace", "Home")/' + id,
+                    success: function (data) {
+                        if (data.success) {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+                });
+            }
+
+        }
+
+    </script>
+}
+
+
